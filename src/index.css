@@ -1,0 +1,1674 @@
+/* ============================================================
+   BMW M5 E39 — tokens
+   ============================================================ */
+
+:root {
+  --ink:        #04070F;
+  --ink-2:      #080E1C;
+  --ink-3:      #0D1830;
+
+  --blue-900:   #061634;
+  --blue-800:   #0A2259;
+  --blue-700:   #0F3285;
+  --blue-600:   #1749B8;
+  --blue-500:   #2666E6;
+  --blue-400:   #5490FF;
+  --blue-300:   #8FB8FF;
+
+  --paper:      #F2F5FA;
+  --paper-2:    #E4EAF4;
+
+  --on-dark:       #FFFFFF;
+  --on-dark-dim:   #9BABC7;
+  --on-dark-faint: #5D6D8A;
+  --on-light:      #0A1020;
+  --on-light-dim:  #566076;
+
+  --line-dark:  rgba(255, 255, 255, 0.10);
+  --line-light: rgba(10, 16, 32, 0.12);
+
+  --ease:       cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io:    cubic-bezier(0.65, 0, 0.35, 1);
+
+  --shell:      min(1240px, 100% - 3rem);
+  --radius:     22px;
+  --radius-lg:  34px;
+
+  --nav-h:      62px;
+  --font: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* `clip`, not `hidden`: hidden would turn this into a scroll container
+     and stop scroll events from reaching window. */
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--on-dark);
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.is-locked { overflow: hidden; }
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
+
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid var(--blue-400);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+::selection { background: var(--blue-600); color: #fff; }
+
+/* ============================================================
+   Typography
+   ============================================================ */
+
+.display {
+  font-size: clamp(3.75rem, 15vw, 12rem);
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  margin: 0;
+}
+
+.h1 {
+  font-size: clamp(2.4rem, 6.2vw, 5.2rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.h2 {
+  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+}
+
+.h3 {
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  max-width: 34ch;
+}
+
+.prose p {
+  max-width: 68ch;
+  font-weight: 400;
+  color: var(--on-dark-dim);
+}
+
+.prose p + p { margin-top: 1.2em; }
+
+.on-light .prose p { color: var(--on-light-dim); }
+
+.kicker {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--blue-400);
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+
+.shell {
+  width: var(--shell);
+  margin-inline: auto;
+}
+
+/* Every block fills the screen, with its content optically centred. */
+.section {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: clamp(4rem, 8vw, 7rem);
+  display: grid;
+  align-content: center;
+}
+
+/* Sections that stack full-screen children handle their own rhythm. */
+.section--stack {
+  align-content: start;
+  padding-block: 0;
+}
+
+/* A narrower measure for blocks that look thin stretched across the shell. */
+.shell--narrow { width: min(1180px, 100% - 3rem); }
+
+/* Content-height section, for blocks a full screen would leave half empty. */
+.section--compact {
+  min-height: auto;
+  padding-top: clamp(1rem, 2.5vh, 2rem);
+  padding-bottom: clamp(3rem, 7vh, 5rem);
+}
+
+/* Pulls the next block up when both sit on the same background. */
+.section--flush-bottom { padding-bottom: clamp(1.5rem, 4vh, 3rem); }
+
+/* A band hugs its content: used where a full screen would be mostly empty. */
+.band {
+  position: relative;
+  padding-block: clamp(2.6rem, 6vh, 4.4rem);
+}
+
+/* Short content sits under the header instead of floating mid-screen. */
+.section--top {
+  align-content: start;
+  padding-top: calc(var(--nav-h) + clamp(2rem, 5vh, 4rem));
+  padding-bottom: clamp(2rem, 5vh, 4rem);
+}
+
+.on-dark  { background: var(--ink);   color: var(--on-dark); }
+.on-light { background: var(--paper); color: var(--on-light); }
+
+.on-deep {
+  background:
+    radial-gradient(120% 90% at 50% 0%, var(--blue-800) 0%, var(--blue-900) 42%, var(--ink) 100%);
+  color: var(--on-dark);
+}
+
+/* ============================================================
+   Preloader — roundel, then a dot that stretches into a glass plaque
+   ============================================================ */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--ink);
+  transition: opacity 900ms var(--ease), transform 1100ms var(--ease), filter 900ms var(--ease);
+}
+
+.preloader.is-done {
+  opacity: 0;
+  transform: scale(1.07);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.preloader__glow {
+  position: absolute;
+  width: min(64vw, 620px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(38, 102, 230, 0.42) 0%, rgba(10, 34, 89, 0) 68%);
+  opacity: calc(var(--p) * 0.9 + 0.08);
+  transform: scale(calc(0.72 + var(--p) * 0.42));
+  transition: opacity 420ms linear, transform 620ms var(--ease);
+}
+
+.preloader__inner {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: clamp(1.6rem, 4vh, 2.6rem);
+}
+
+/* 1. The emblem arrives first. */
+@keyframes roundelIn {
+  from { opacity: 0; transform: scale(0.86); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.preloader__badge {
+  position: relative;
+  width: min(42vw, 196px);
+  animation: roundelIn 900ms var(--ease) both;
+}
+
+.preloader__badge img {
+  width: 100%;
+  filter:
+    brightness(calc(0.3 + var(--p) * 0.78))
+    saturate(calc(0.2 + var(--p) * 1))
+    drop-shadow(0 0 calc(var(--p) * 56px) rgba(84, 144, 255, calc(var(--p) * 0.65)));
+  transition: filter 420ms linear;
+}
+
+.preloader.is-flash .preloader__badge img {
+  filter: brightness(1.5) saturate(1.25) drop-shadow(0 0 70px rgba(143, 184, 255, 0.95));
+  transition: filter 180ms ease-out;
+}
+
+/* 2. A dot appears below it and stretches sideways into the plaque. */
+@keyframes plaqueOpen {
+  0%   { opacity: 0; width: var(--ph); transform: scale(0.5); }
+  34%  { opacity: 1; width: var(--ph); transform: scale(1); }
+  100% { opacity: 1; width: var(--pw); transform: scale(1); }
+}
+
+.preloader__plaque {
+  --pw: min(78vw, 304px);
+  --ph: 54px;
+
+  position: relative;
+  width: var(--pw);
+  height: var(--ph);
+  border-radius: 999px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(
+      118deg,
+      rgba(0, 102, 177, 0.4) 0%,
+      rgba(46, 111, 208, 0.24) 40%,
+      rgba(255, 255, 255, 0.1) 62%,
+      rgba(231, 34, 46, 0.26) 100%
+    ),
+    rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 20px 46px rgba(0, 0, 0, 0.5);
+  animation: plaqueOpen 1000ms var(--ease) 700ms both;
+}
+
+/* The loading line from before, now reading across the pill itself. */
+.preloader__fill {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(var(--p));
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(120, 170, 255, 0.3), rgba(255, 255, 255, 0.14));
+  transition: transform 320ms linear;
+}
+
+/* 3. Only once the pill is open does the readout appear. */
+.preloader__readout {
+  position: relative;
+  width: 100%;
+  padding-inline: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  animation: fadeUp 620ms var(--ease) 1620ms both;
+}
+
+.preloader__pct {
+  display: flex;
+  align-items: baseline;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--on-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.preloader__pct i {
+  font-style: normal;
+  font-size: 0.72em;
+  font-weight: 500;
+  margin-left: 0.12em;
+  opacity: 0.68;
+}
+
+.preloader__word {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader__badge,
+  .preloader__plaque,
+  .preloader__readout { animation: none !important; }
+
+  .preloader__plaque { width: var(--pw); opacity: 1; }
+}
+
+/* ============================================================
+   Nav
+   ============================================================ */
+
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  transition: background 420ms var(--ease), border-color 420ms var(--ease);
+  border-bottom: 1px solid transparent;
+}
+
+.nav.is-stuck {
+  background: rgba(4, 7, 15, 0.72);
+  backdrop-filter: saturate(180%) blur(22px);
+  -webkit-backdrop-filter: saturate(180%) blur(22px);
+  border-bottom-color: var(--line-dark);
+}
+
+.nav__inner {
+  width: var(--shell);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.nav__mark {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.02rem;
+}
+
+.nav__mark span {
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--on-dark-faint);
+}
+
+.nav__links {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.nav__link {
+  position: relative;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--on-dark-dim);
+  transition: color 280ms var(--ease), background 280ms var(--ease);
+}
+
+.nav__link:hover { color: var(--on-dark); }
+
+.nav__link.is-active {
+  color: var(--on-dark);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav__burger { display: none; }
+
+/* ============================================================
+   Reveal
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 900ms var(--ease),
+    transform 900ms var(--ease);
+  transition-delay: var(--d, 0ms);
+  will-change: opacity, transform;
+}
+
+/* The visible state lives in the opening-sequence block below, gated on
+   html.is-ready so nothing animates while the preloader still covers it. */
+
+/* ============================================================
+   Hero
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(130% 100% at 50% 8%, var(--blue-800) 0%, var(--blue-900) 38%, var(--ink) 78%);
+}
+
+.hero__aura {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  width: min(140vw, 1500px);
+  aspect-ratio: 2 / 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(38, 102, 230, 0.38) 0%, rgba(6, 22, 52, 0) 65%);
+  pointer-events: none;
+}
+
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-dark) 1px, transparent 1px);
+  background-size: 92px 92px;
+  mask-image: radial-gradient(70% 60% at 50% 45%, #000 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 45%, #000 0%, transparent 100%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  width: var(--shell);
+  margin-inline: auto;
+  min-height: 100svh;
+  padding-top: calc(var(--nav-h) + 2rem);
+  padding-bottom: 4.6rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 1rem 0.42rem 0.5rem;
+  border: 1px solid var(--line-dark);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--on-dark-dim);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.hero__badge b {
+  font-weight: 700;
+  color: var(--on-dark);
+  letter-spacing: 0.02em;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-500));
+}
+
+.hero__title {
+  font-size: clamp(3.4rem, 13vw, 9.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  /* Padding gives the painted box room for the last glyph's side bearing,
+     which the negative tracking would otherwise clip. The matching negative
+     margin keeps the layout unchanged. */
+  padding: 0.08em 0.12em;
+  margin: -0.08em -0.12em;
+  background: linear-gradient(170deg, #FFFFFF 8%, var(--blue-300) 52%, var(--blue-600) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__sub {
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  color: var(--blue-300);
+  text-indent: 0.34em;
+}
+
+.hero__lede {
+  max-width: 54ch;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--on-dark-dim);
+}
+
+.hero__car {
+  position: relative;
+  width: min(100%, 1180px);
+  flex: 1 1 0;
+  min-height: 210px;
+  margin-top: 1.1rem;
+}
+
+.hero__car img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 58%;
+  border-radius: var(--radius-lg);
+}
+
+.hero__car--cut img {
+  object-fit: contain;
+  object-position: center bottom;
+  border-radius: 0;
+  filter: drop-shadow(0 40px 58px rgba(2, 6, 18, 0.82));
+}
+
+.hero__car--photo img {
+  box-shadow: 0 46px 100px rgba(2, 6, 18, 0.7);
+}
+
+.hero__shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  width: 72%;
+  height: 46px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(2, 5, 14, 0.75) 0%, rgba(2, 5, 14, 0) 72%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 1.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--on-dark-faint);
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+}
+
+.hero__scroll i {
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(var(--blue-400), transparent);
+  animation: drip 2.4s var(--ease-io) infinite;
+}
+
+@keyframes drip {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  35%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  70%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+/* ============================================================
+   Figures
+   ============================================================ */
+
+.figures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.6rem, 3vw, 3rem);
+}
+
+.figure {
+  display: grid;
+  gap: 0.3rem;
+  align-content: center;
+}
+
+.figure__value {
+  font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--on-dark);
+}
+
+.figure__unit {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--blue-400);
+}
+
+.figure__note {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--on-dark-faint);
+  line-height: 1.45;
+}
+
+/* ============================================================
+   Teasers
+   ============================================================ */
+
+.teasers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.teaser {
+  position: relative;
+  display: grid;
+  align-content: end;
+  min-height: 460px;
+  padding: 1.8rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ink-2);
+  transition: transform 700ms var(--ease);
+}
+
+.teaser__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.teaser__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1100ms var(--ease);
+}
+
+.teaser::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(4, 7, 15, 0.94) 6%, rgba(4, 7, 15, 0.45) 46%, rgba(6, 22, 52, 0.1) 100%);
+}
+
+.teaser:hover { transform: translateY(-6px); }
+.teaser:hover .teaser__media img { transform: scale(1.06); }
+
+.teaser__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-top: 0.35rem;
+}
+
+.teaser__body {
+  margin-top: 0.6rem;
+  font-size: 0.93rem;
+  font-weight: 400;
+  color: var(--on-dark-dim);
+  max-width: 32ch;
+}
+
+.teaser__more {
+  margin-top: 1.1rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--blue-300);
+}
+
+/* ============================================================
+   Chapter — tall photo + text
+   ============================================================ */
+
+.chapter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+  align-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.chapter--flip .chapter__media { order: 2; }
+
+.chapter__media {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 3 / 4;
+  /* Height-led so a tall photo never outgrows a short, wide screen. */
+  height: 72svh;
+  width: auto;
+  max-width: 100%;
+  justify-self: center;
+  background: var(--ink-2);
+}
+
+.chapter__media img {
+  width: 100%;
+  height: 112%;
+  object-fit: cover;
+  transform: translateY(var(--shift, 0));
+  will-change: transform;
+}
+
+.chapter__title {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.chapter__body {
+  margin-top: 1.4rem;
+  color: var(--on-dark-dim);
+  max-width: 48ch;
+}
+
+.facts {
+  margin-top: 2.2rem;
+  display: grid;
+  gap: 1.1rem;
+  max-width: 44ch;
+}
+
+.fact {
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line-dark);
+}
+
+.fact__value {
+  font-size: 1.22rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--on-dark);
+}
+
+.fact__note {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--on-dark-faint);
+}
+
+/* ============================================================
+   History + timeline
+   ============================================================ */
+
+.history {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(2rem, 6vw, 5.5rem);
+  align-items: start;
+}
+
+.history__lead {
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+  font-weight: 300;
+  line-height: 1.38;
+  letter-spacing: -0.02em;
+  color: var(--on-light);
+}
+
+.history__body p {
+  color: var(--on-light-dim);
+  max-width: 62ch;
+}
+
+.history__body p + p { margin-top: 1.3em; }
+
+.timeline {
+  margin-top: clamp(1.4rem, 2.6vw, 2rem);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line-light);
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.timeline__item {
+  background: var(--paper);
+  padding: clamp(1.3rem, 2.6vh, 1.8rem) clamp(1.2rem, 2vw, 1.6rem);
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+}
+
+.timeline__year {
+  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--blue-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline__text {
+  font-size: 0.86rem;
+  color: var(--on-light-dim);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   Engine
+   ============================================================ */
+
+.engine {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.engine__media {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 40px 90px rgba(2, 5, 14, 0.6);
+  border: 1px solid var(--line-dark);
+}
+
+.engine__points {
+  margin-top: 2.2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem 1.8rem;
+}
+
+.engine__point {
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-dark);
+}
+
+.engine__point b {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--blue-300);
+}
+
+.engine__point span {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.86rem;
+  color: var(--on-dark-faint);
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   Interior — two landscape photographs side by side
+   ============================================================ */
+
+.interior {
+  margin-top: clamp(1.2rem, 2.4vw, 1.9rem);
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: clamp(0.9rem, 1.6vw, 1.4rem);
+  align-items: stretch;
+}
+
+.interior__shot {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line-dark);
+  background: var(--ink-2);
+  aspect-ratio: 16 / 9;
+  max-height: clamp(170px, 31svh, 310px);
+}
+
+.interior__shot--tight { aspect-ratio: 4 / 3; }
+
+.interior__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.interior__below {
+  margin-top: clamp(1.2rem, 2.2vw, 1.8rem);
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: clamp(1.4rem, 3vw, 3rem);
+  align-items: start;
+}
+
+.interior__caption {
+  color: var(--on-dark-dim);
+  max-width: 62ch;
+  font-size: 0.97rem;
+}
+
+.facts--row {
+  margin-top: 0;
+  max-width: none;
+}
+
+@media (max-width: 860px) {
+  .interior,
+  .interior__below { grid-template-columns: 1fr; }
+
+  .interior__shot { max-height: none; }
+}
+
+/* ============================================================
+   Specs
+   ============================================================ */
+
+.specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: clamp(1.6rem, 3.4vw, 3.2rem);
+}
+
+.spec {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(0.62rem, 1.45vh, 1.05rem) 0;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.spec__label {
+  font-size: 0.93rem;
+  font-weight: 400;
+  color: var(--on-light-dim);
+}
+
+.spec__value {
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--on-light);
+}
+
+/* ============================================================
+   Journal
+   ============================================================ */
+
+.posts {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.post {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--ink-2);
+  border: 1px solid var(--line-dark);
+  transition: transform 700ms var(--ease), border-color 700ms var(--ease);
+  text-align: left;
+  width: 100%;
+}
+
+.post:hover {
+  transform: translateY(-6px);
+  border-color: rgba(84, 144, 255, 0.45);
+}
+
+.post__media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--ink-3);
+}
+
+.post__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1100ms var(--ease);
+}
+
+.post:hover .post__media img { transform: scale(1.05); }
+
+.post__body {
+  padding: 1.6rem 1.7rem 1.9rem;
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+}
+
+.post__meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--blue-400);
+}
+
+.post__meta span:last-child { color: var(--on-dark-faint); }
+
+.post__title {
+  font-size: 1.42rem;
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.16;
+}
+
+.post__excerpt {
+  font-size: 0.93rem;
+  color: var(--on-dark-dim);
+  max-width: 44ch;
+}
+
+/* Article overlay */
+
+.article {
+  position: fixed;
+  inset: 0;
+  /* Above the nav, below the pointer ring. */
+  z-index: 300;
+  background: rgba(2, 4, 10, 0.86);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 3.5vw, 2.6rem);
+  /* The sheet scrolls on its own; the page behind never moves. */
+  overflow: hidden;
+  animation: fadeIn 380ms var(--ease);
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.article__sheet {
+  width: min(760px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--ink-2);
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 50px 120px rgba(0, 0, 0, 0.7);
+  animation: sheetUp 620ms var(--ease);
+}
+
+@keyframes sheetUp {
+  from { opacity: 0; transform: translateY(42px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+.article__media {
+  flex: 0 0 auto;
+  height: clamp(130px, 26svh, 260px);
+  overflow: hidden;
+}
+
+.article__media img { width: 100%; height: 100%; object-fit: cover; }
+
+/* The text is the part that scrolls. */
+.article__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(1.5rem, 3.4vw, 2.6rem);
+}
+
+.article__title {
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin-top: 0.7rem;
+}
+
+.article__text { margin-top: 1.4rem; }
+
+.article__text p {
+  color: var(--on-dark-dim);
+  max-width: 62ch;
+}
+
+.article__text p + p { margin-top: 1.15em; }
+
+.article__close {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  z-index: 2;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 280ms var(--ease), border-color 280ms var(--ease);
+}
+
+.article__close:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.footer {
+  border-top: 1px solid var(--line-dark);
+  padding-block: 3.2rem 2.4rem;
+  background: var(--ink);
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem 3rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.footer__name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--on-dark);
+}
+
+.footer__note {
+  margin-top: 0.4rem;
+  font-size: 0.84rem;
+  color: var(--on-dark-faint);
+  max-width: 46ch;
+  line-height: 1.6;
+}
+
+.footer__links {
+  display: flex;
+  gap: 1.4rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--on-dark-dim);
+}
+
+.footer__links a:hover { color: var(--on-dark); }
+
+/* ============================================================
+   Page transition
+   ============================================================ */
+
+.page { animation: pageIn 620ms var(--ease) both; }
+
+@keyframes pageIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 1000px) {
+  :root { --shell: min(1240px, 100% - 2.2rem); }
+
+  .teasers      { grid-template-columns: 1fr; }
+  .chapter      { grid-template-columns: 1fr; gap: 2rem; }
+  .chapter--flip .chapter__media { order: 0; }
+  .chapter__media { aspect-ratio: 4 / 5; height: auto; width: 100%; }
+  .history      { grid-template-columns: 1fr; }
+  .timeline     { grid-template-columns: repeat(2, 1fr); }
+  .engine       { grid-template-columns: 1fr; }
+  .figures      { grid-template-columns: repeat(2, 1fr); }
+  .specs        { grid-template-columns: repeat(2, 1fr); }
+  .posts        { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  body { font-size: 16px; }
+
+  .nav__links { gap: 0; }
+  .nav__link  { padding: 0.4rem 0.6rem; font-size: 0.84rem; }
+  .teaser     { min-height: 380px; }
+  .figures    { grid-template-columns: 1fr; }
+  .timeline   { grid-template-columns: 1fr; }
+  .specs      { grid-template-columns: 1fr; }
+  .engine__points { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal { opacity: 1; transform: none; }
+  .chapter__media img { transform: none; }
+  .preloader.is-done { transform: none; filter: none; }
+}
+
+/* Reveal wrappers must stretch so the cards inside share a row height. */
+.teasers > *,
+.posts > * { display: grid; }
+
+
+/* ============================================================
+   Pointer — a ring instead of an arrow
+   ============================================================ */
+
+:root {
+  --m-stripe: linear-gradient(135deg, #0066B1 0%, #2E6FD0 32%, #FFFFFF 56%, #E7222E 100%);
+}
+
+html.has-cursor,
+html.has-cursor * { cursor: none; }
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 400;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cursor.is-gone { opacity: 0; }
+
+.cursor__ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  /* Difference keeps the ring readable on both the dark and the light blocks. */
+  mix-blend-mode: difference;
+  transition:
+    width 320ms var(--ease),
+    height 320ms var(--ease),
+    margin 320ms var(--ease),
+    background 320ms var(--ease),
+    border-color 320ms var(--ease),
+    opacity 320ms var(--ease),
+    transform 220ms var(--ease);
+}
+
+/* Over anything clickable it fills with the M stripe. */
+.cursor.is-hot .cursor__ring {
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border-color: rgba(255, 255, 255, 0.85);
+  background: var(--m-stripe);
+  mix-blend-mode: normal;
+  opacity: 0.92;
+}
+
+.cursor.is-down .cursor__ring { transform: scale(0.82); }
+
+/* ============================================================
+   Scroll progress
+   ============================================================ */
+
+.progress {
+  position: fixed;
+  right: clamp(12px, 1.6vw, 26px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: min(44vh, 360px);
+  border-radius: 3px;
+  background: rgba(130, 145, 170, 0.3);
+  overflow: hidden;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.progress__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: top center;
+  background: linear-gradient(180deg, #0066B1 0%, #2E6FD0 30%, #FFFFFF 58%, #E7222E 100%);
+}
+
+@media (max-width: 620px) {
+  .progress { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor__ring { transition: none; }
+}
+
+/* ============================================================
+   Native scrollbar off — the progress line on the right replaces it
+   ============================================================ */
+
+html,
+body,
+.article__body {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* legacy Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.article__body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* ============================================================
+   Opening sequence — one orchestrated moment, after the preloader
+   Order: nav, badge unfurls, its text, E39, strapline, lede, car, hint.
+   ============================================================ */
+
+.nav__mark,
+.nav__link,
+.hero__badge,
+.hero__badge > *,
+.hero__title,
+.hero__sub,
+.hero__lede,
+.hero__car,
+.hero__scroll { opacity: 0; }
+
+@keyframes navIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* A dot that opens sideways into the pill. */
+@keyframes badgeOpen {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+    clip-path: inset(0 calc(50% - 19px) 0 calc(50% - 19px) round 999px);
+  }
+  26% {
+    opacity: 1;
+    transform: scale(1);
+    clip-path: inset(0 calc(50% - 19px) 0 calc(50% - 19px) round 999px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    clip-path: inset(0 0 0 0 round 999px);
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes heroTitle {
+  from { opacity: 0; transform: translateY(26px) scale(1.05); filter: blur(18px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+@keyframes heroLede {
+  from { opacity: 0; transform: translateY(10px); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+@keyframes heroCar {
+  from { opacity: 0; transform: translateY(52px) scale(1.04); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes heroScroll {
+  from { opacity: 0; transform: translate(-50%, 14px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+html.is-ready .nav__mark,
+html.is-ready .nav__link {
+  animation: navIn 640ms var(--ease) both;
+  animation-delay: var(--d, 0ms);
+}
+
+html.is-ready .hero__badge {
+  animation: badgeOpen 900ms var(--ease) both;
+  animation-delay: 380ms;
+}
+
+html.is-ready .hero__badge > * {
+  animation: fadeUp 520ms var(--ease) both;
+  animation-delay: 1120ms;
+}
+
+html.is-ready .hero__title {
+  animation: heroTitle 1150ms var(--ease) both;
+  animation-delay: 1280ms;
+}
+
+html.is-ready .hero__sub {
+  animation: fadeUp 760ms var(--ease) both;
+  animation-delay: 1580ms;
+}
+
+/* The longest fade of the set — this line is meant to settle in slowly. */
+html.is-ready .hero__lede {
+  animation: heroLede 1500ms var(--ease) both;
+  animation-delay: 1700ms;
+}
+
+html.is-ready .hero__car {
+  animation: heroCar 1300ms var(--ease) both;
+  animation-delay: 1880ms;
+}
+
+html.is-ready .hero__scroll {
+  animation: heroScroll 800ms var(--ease) both;
+  animation-delay: 2400ms;
+}
+
+/* Scroll reveals wait for the curtain too, so nothing plays out of sight. */
+.reveal { opacity: 0; transform: translateY(34px); }
+
+html.is-ready .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__mark,
+  .nav__link,
+  .hero__badge,
+  .hero__badge > *,
+  .hero__title,
+  .hero__sub,
+  .hero__lede,
+  .hero__car,
+  .reveal { opacity: 1; transform: none; animation: none !important; }
+
+  .hero__scroll { opacity: 1; transform: translateX(-50%); animation: none !important; }
+  .hero__badge { clip-path: none; }
+}
+
+/* ============================================================
+   Phones and small tablets
+   ============================================================ */
+
+/* A touch screen keeps its own pointer, whatever the JS decided. */
+@media (hover: none), (pointer: coarse) {
+  .cursor { display: none; }
+
+  html.has-cursor,
+  html.has-cursor * { cursor: auto; }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --shell: min(1240px, 100% - 2rem);
+    --nav-h: 56px;
+  }
+
+  /* The car kept all the leftover room and sank to the bottom of the screen.
+     Sizing it directly lets the whole stack sit centred instead. */
+  .hero__inner {
+    justify-content: center;
+    gap: 0.8rem;
+    padding-top: calc(var(--nav-h) + 1.2rem);
+    padding-bottom: 5rem;
+  }
+
+  .hero__car {
+    flex: 0 0 auto;
+    height: clamp(118px, 23svh, 230px);
+    min-height: 0;
+    margin-top: 1.5rem;
+  }
+
+  .hero__title { font-size: clamp(3.2rem, 19vw, 5.6rem); }
+
+  .hero__sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.24em;
+    text-indent: 0.24em;
+  }
+
+  .hero__lede {
+    font-size: 0.96rem;
+    line-height: 1.55;
+    max-width: 38ch;
+  }
+
+  .hero__badge { font-size: 0.72rem; }
+
+  .hero__grid { background-size: 56px 56px; }
+
+  .nav__link { padding: 0.4rem 0.55rem; font-size: 0.82rem; }
+
+  .section { padding-block: clamp(3.5rem, 9vh, 5.5rem); }
+
+  /* Full-height chapters leave big gaps once the photo stacks on the text. */
+  .chapter {
+    min-height: auto;
+    padding-block: clamp(3rem, 8vh, 4.5rem);
+  }
+
+  .chapter__media { aspect-ratio: 3 / 4; }
+
+  .teaser { min-height: 340px; }
+
+  .article__close {
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+  }
+
+  .footer__inner { gap: 1.2rem; }
+}
+
+@media (max-width: 620px) {
+  /* Two across still reads; one per row made the band far too tall. */
+  .figures { grid-template-columns: repeat(2, 1fr); }
+
+  .figure { padding: 1.2rem 1rem; }
+
+  .figure__value { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+
+  .figure__note { font-size: 0.76rem; }
+
+  /* The line replaces the native scrollbar, so it has to stay on phones too. */
+  .progress {
+    display: block;
+    right: 7px;
+    width: 2px;
+    height: min(34vh, 220px);
+  }
+
+  .nav__mark span { display: none; }
+
+  .specs { grid-template-columns: 1fr; }
+
+  .spec { gap: 1rem; }
+
+  .spec__label,
+  .spec__value { font-size: 0.88rem; }
+}
+
+@media (max-width: 400px) {
+  :root { --shell: min(1240px, 100% - 1.6rem); }
+
+  .nav__link { padding: 0.38rem 0.42rem; font-size: 0.78rem; }
+
+  .figures { grid-template-columns: 1fr; }
+
+  .hero__lede { font-size: 0.9rem; }
+}
+
+/* ============================================================
+   Rolling figures — digits spin up to their value, like a counter
+   ============================================================ */
+
+.roll {
+  display: inline-flex;
+  align-items: flex-start;
+}
+
+.roll__slot {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.roll__col {
+  display: flex;
+  flex-direction: column;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.roll__d {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+
+.roll__sep {
+  display: inline-block;
+  white-space: pre;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roll__col { transition: none !important; }
+}

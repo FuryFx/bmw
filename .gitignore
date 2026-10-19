@@ -1,0 +1,6 @@
+node_modules
+dist
+.DS_Store
+
+# Original photographs — the site ships the optimised copies in public/photos
+/photos
